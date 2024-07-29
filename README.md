@@ -1,2 +1,2 @@
-# Redis
-Designed own In-memory storage for multithreading scenario
+# Designed own In-memory storage for multithreading scenario
+
