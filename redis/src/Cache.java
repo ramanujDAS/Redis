@@ -1,10 +1,13 @@
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Cache<KEY,VALUE>
 {
     private int maxSize ;
     private Duration expiryTime;
+    private ConcurrentHashMap<Object, Object> storage = new ConcurrentHashMap<>();
 
     public Cache(int maxSize, Duration expiryTime)
     {
@@ -15,12 +18,18 @@ public class Cache<KEY,VALUE>
 
     public VALUE get(KEY key)
     {
-      return null;
+        if (storage.containsKey(key)) {
+            return (VALUE) storage.get(key);
+        } else {
+            return null;
+        }
     }
 
-    public CompletableFuture<Void> set(KEY key, VALUE value)
+    public CompletableFuture<Object> set(KEY key, VALUE value)
     {
-       return CompletableFuture.completedFuture(null);
+       return CompletableFuture.completedFuture(
+               storage.put(key, value)
+       );
 
     }
 }
